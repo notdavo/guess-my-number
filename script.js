@@ -10,6 +10,7 @@ const highscoreText = document.querySelector('.highscore');
 const guessText = document.querySelector('.guess');
 const secretNumberText = document.querySelector('.number');
 const button = document.querySelector('.check');
+const body = document.querySelector('body');
 
 document.querySelector('.check').addEventListener('click', function () {
   const guess = Number(guessText.value);
@@ -17,22 +18,41 @@ document.querySelector('.check').addEventListener('click', function () {
     changeText('No number!', messageText);
   } else if (guess === secretNumber) {
     changeText('Correct Number!', messageText);
+    changeResultStyle('win');
     checkHighScore();
     changeText(String(secretNumber), secretNumberText);
     button.disabled = true;
   } else if (guess > secretNumber) {
     changeText('Too high!', messageText);
-    if (score === 1) changeText('You loss!', messageText);
+    if (score === 1) {
+      changeText('You loss!', messageText);
+      changeResultStyle('loss');
+      button.disabled = true;
+    }
     changeText(String((score -= 1)), scoreText);
   } else if (guess < secretNumber) {
     changeText('Too low!', messageText);
-    if (score === 1) changeText('You loss!', messageText);
-    reduceScore();
+    if (score === 1) {
+      changeText('You loss!', messageText);
+      changeResultStyle('loss');
+      button.disabled = true;
+    }
+    changeText(String((score -= 1)), scoreText);
   }
 });
 
 function changeText(text, textField) {
   textField.textContent = text;
+}
+
+function changeResultStyle(result) {
+  if (result === 'win') {
+    body.style.backgroundColor = '#60b347';
+    secretNumberText.style.width = '30rem';
+  } else if (result === 'reset') {
+    body.style.backgroundColor = '#222';
+    secretNumberText.style.width = '15rem';
+  }
 }
 
 function checkHighScore() {
@@ -49,4 +69,5 @@ document.querySelector('.again').addEventListener('click', function () {
   changeText('Start guessing...', messageText);
   secretNumber = Math.trunc(Math.random() * 20) + 1;
   console.log(secretNumber);
+  changeResultStyle('reset');
 });
