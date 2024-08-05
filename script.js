@@ -22,16 +22,8 @@ document.querySelector('.check').addEventListener('click', function () {
     checkHighScore();
     changeText(String(secretNumber), secretNumberText);
     button.disabled = true;
-  } else if (guess > secretNumber) {
-    changeText('Too high!', messageText);
-    if (score === 1) {
-      changeText('You loss!', messageText);
-      changeResultStyle('loss');
-      button.disabled = true;
-    }
-    changeText(String((score -= 1)), scoreText);
-  } else if (guess < secretNumber) {
-    changeText('Too low!', messageText);
+  } else if (guess !== secretNumber) {
+    changeText(guess > secretNumber ? 'Too high!' : 'Too low!', messageText);
     if (score === 1) {
       changeText('You loss!', messageText);
       changeResultStyle('loss');
