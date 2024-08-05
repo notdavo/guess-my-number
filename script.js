@@ -23,17 +23,13 @@ document.querySelector('.check').addEventListener('click', function () {
   } else if (guess > secretNumber) {
     changeText('Too high!', messageText);
     if (score === 1) changeText('You loss!', messageText);
-    reduceScore();
+    changeText(String((score -= 1)), scoreText);
   } else if (guess < secretNumber) {
     changeText('Too low!', messageText);
     if (score === 1) changeText('You loss!', messageText);
     reduceScore();
   }
 });
-
-function reduceScore() {
-  scoreText.textContent = String((score -= 1));
-}
 
 function changeText(text, textField) {
   textField.textContent = text;
